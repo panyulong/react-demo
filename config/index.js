@@ -1,3 +1,4 @@
+import path from 'path'
 const config = {
   projectName: 'myApp',
   date: '2020-6-28',
@@ -90,6 +91,9 @@ const config = {
         }
       }
     }
+  },
+  alias: {
+    '@': path.resolve(__dirname, '..', 'src')
   }
 }
 

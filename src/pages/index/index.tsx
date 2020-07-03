@@ -3,7 +3,7 @@ import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 
-import { add, minus, asyncAdd } from '../../actions/counter'
+import { getRecommendPlayListDao } from './services'
 
 import './index.scss'
 
@@ -17,21 +17,29 @@ import './index.scss'
 //
 // #endregion
 
-type PageStateProps = {
-  counter: {
-    num: number
+//状态管理counter下的属性state:{num:0} 声明类型
+type PageStateProps = { 
+  index: {
+    num: number,
+    personList: Array<{
+      id: string,
+      name: string,
+      age: number
+    }>,
   }
 }
-
+// 状态管理下的异步方法
 type PageDispatchProps = {
-  add: () => void
-  dec: () => void
-  asyncAdd: () => any
+  asyncGetRecentPlayAction: (payload) => void
 }
 
 type PageOwnProps = {}
 
-type PageState = {}
+// 本页构造函数this,生命周期 & State
+type PageState = {
+  isCreateOpen: boolean
+  isFavOpen: boolean
+}
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
 
@@ -39,21 +47,17 @@ interface Index {
   props: IProps;
 }
 
-@connect(({ counter }) => ({
-  counter
+@connect(({ index }) => ({
+  index
 }), (dispatch) => ({
-  add () {
-    dispatch(add())
+  asyncGetRecentPlayAction (payload) {
+    dispatch({
+      type: 'index/asyncGetRecentPlayAction',
+      payload
+    })
   },
-  dec () {
-    dispatch(minus())
-  },
-  asyncAdd () {
-    dispatch(asyncAdd())
-  }
 }))
-class Index extends Component {
-
+class Index extends Component<IProps, PageState> {
     /**
    * 指定config的类型声明为: Taro.Config
    *
@@ -65,24 +69,51 @@ class Index extends Component {
     navigationBarTitleText: '首页'
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      isCreateOpen: true,
+      isFavOpen: true,
+    }
+  }
+
   componentWillReceiveProps (nextProps) {
-    console.log(this.props, nextProps)
+    // console.log(this.props, nextProps)
   }
 
   componentWillUnmount () { }
 
-  componentDidShow () { }
+  componentDidShow () { 
+    // this.getRecommendPlayList()
+  }
 
   componentDidHide () { }
 
+  goDetail(item){
+    console.log(item)
+    this.setState({
+      isCreateOpen: !this.state.isCreateOpen,
+    })
+    this.props.asyncGetRecentPlayAction({ uid: 1 })
+  }
+
   render () {
+    const { personList } = this.props.index;
+    const { isCreateOpen } = this.state;
     return (
       <View className='index'>
-        <Button className='add_btn' onClick={this.props.add}>+</Button>
-        <Button className='dec_btn' onClick={this.props.dec}>-</Button>
-        <Button className='dec_btn' onClick={this.props.asyncAdd}>async</Button>
-        <View><Text>{this.props.counter.num}</Text></View>
+        <View className="recommend_playlist__content">
+              {personList.map((item) =>
+                <View 
+                key={item.id}
+                onClick={this.goDetail.bind(this, item)}>
+                  {item.name}-{item.age}
+                </View>
+              )}
+         </View>
         <View><Text>Hello, World</Text></View>
+         {isCreateOpen && <Text>已登录</Text>}
+          {!isCreateOpen && <Text>未登录</Text>}
       </View>
     )
   }
@@ -95,4 +126,4 @@ class Index extends Component {
 //
 // #endregion
 
-export default Index as ComponentClass<PageOwnProps, PageState>
+export default Index

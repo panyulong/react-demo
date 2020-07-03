@@ -1,9 +1,10 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { Provider } from '@tarojs/redux'
 
-import Index from './pages/index'
+import dva from './dva'
+import models from './models/center'
 
-import configStore from './store'
+import Index from './pages/index'
 
 import './app.scss'
 
@@ -13,7 +14,11 @@ import './app.scss'
 //   require('nerv-devtools')
 // }
 
-const store = configStore()
+const dvaApp = dva.createApp({
+  initialState: {},
+  models
+})
+const store = dvaApp.getStore()
 
 class App extends Component {
 
