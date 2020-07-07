@@ -102,7 +102,7 @@ interface Index {
   goDetail(item){
     console.log(item)
     this.setState({
-      isCreateOpen: !this.state.isCreateOpen,
+      isCreateOpen: !this.state.isCreateOpen, 
     })
     this.props.asyncGetRecentPlayAction({ uid: 1 })
   }

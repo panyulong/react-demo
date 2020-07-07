@@ -14,7 +14,7 @@ export default class Lianxi extends Component<Props, State> {
   constructor(props) {
     super(props)
     this.state = {
-      isOpened: false
+      isOpened: false 
     }
   }
   switchPlayStatus(e) {
