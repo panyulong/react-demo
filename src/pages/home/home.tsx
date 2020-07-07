@@ -2,12 +2,7 @@ import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Text} from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import {getBannerDao} from './services'
-import Lianxi from './components/Lianxi'
 import Game from './components/Game'
-
-
-
-import './home.scss'
 
 // #region 书写注意
 //
@@ -20,7 +15,7 @@ import './home.scss'
 // #endregion
 
 type PageStateProps = {
-  song: PlaySong
+  
 }
 
 type PageDispatchProps = {
@@ -32,10 +27,6 @@ type PageOwnProps = {}
 type PageState = {
   current: number,
   btnLoading:boolean,
-  list: Array<{
-    name: string,
-    age: number,
-  }>,
   recommend: any,
   banners: Array<Banner>
 }
@@ -59,13 +50,6 @@ class Home extends Component<IProps, PageState> {
   config: Config = {
     navigationBarTitleText: 'lianxi'
   }
-
-  state = {
-  current: 0,
-  btnLoading:false,
-  list:[{name:'pan',age:12},{name:'chen',age:123}],
-  banners: [],
-}
   constructor () {
     super(...arguments)
   }
@@ -77,7 +61,7 @@ class Home extends Component<IProps, PageState> {
   componentWillUnmount () { }
 
   componentDidShow () {
-    this.getBanner()
+    // this.getBanner()
   }
 
   componentDidHide () { }
@@ -117,7 +101,6 @@ class Home extends Component<IProps, PageState> {
   }
   render () {
     console.log(this.props);
-    let { current,btnLoading} = this.state
     return (
       <View>
         <div className="game">
@@ -129,13 +112,6 @@ class Home extends Component<IProps, PageState> {
             <ol>{/* TODO */}</ol>
           </div>
         </div>
-
-          {current}
-          {btnLoading && <Text>已登录</Text>}
-          {!btnLoading && <Text>未登录</Text>}
-         <Lianxi onUpdatePlayStatus={this.props.getData}></Lianxi>
-         {this.props.home.num}
-
       </View>
     )
   }

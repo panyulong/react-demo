@@ -2,7 +2,6 @@ import Taro, { Component } from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
 
 type Props = {
-  songInfo: PlaySong,
   isHome?: boolean,
   onUpdatePlayStatus: (object) => any
 }
@@ -10,9 +9,6 @@ type Props = {
 type State = {
   isOpened: boolean
 }
-
-const backgroundAudioManager = Taro.getBackgroundAudioManager()
-
 
 export default class Lianxi extends Component<Props, State> {
   constructor(props) {

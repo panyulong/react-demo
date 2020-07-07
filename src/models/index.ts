@@ -7,6 +7,7 @@ export default {
       {id:'1',name:'pan',age:12}
     ],
     recentPlay: [],
+    isPlaying:true
   },
   effects: {
     *asyncGetRecentPlayAction({ payload }, { call, put }) {
